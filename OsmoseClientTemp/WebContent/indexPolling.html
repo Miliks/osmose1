@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org">
+	<head>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    
+	    <link href="./css/bootstrap/bootstrap.css" rel="stylesheet">
+    	<link href="./css/xeditable.css" rel="stylesheet">
+    	<link href="./css/style.css" rel="stylesheet">
+	    
+	    <script src="./lib/jquery-1.11.1.min.js"></script>
+		<script src="./lib/angular/angular.js"></script>
+		<script src="./lib/angular/angular-route.min.js"></script>
+		<script src="./lib/angular/angular-animate.min.js"></script>
+		<script src="./lib/angular/angular-resource.js"></script>
+		<script src="./lib/angular/angular-cookies.js"></script>
+		
+		<script src="./lib/bootstrap/bootstrap.min.js"></script>
+		<script src="./lib/bootstrap/bootbox.js"></script>
+		<script src="./lib/xeditable.js"></script>
+		<script src="./lib/spin.min.js"></script>
+	
+		<script src="./lib/JSON-js-master/json2.js"></script>
+		<script src="./lib/placeholders.min.js"></script>
+		<script src="./lib/jquery.xml2json.js"></script>
+		<script src="./lib/base64.js"></script>
+		<script src="./lib/sha/sha.js"></script>
+		<script src="./lib/xml2json.js"></script>
+				
+		<script src="./js/mainApp.js"></script>
+	 
+		<!--[if lt IE 9]>
+	      <script src="./lib/html5shiv.min.js"></script>
+	      <script src="./lib/respond.min.js"></script>
+	    <![endif]-->
+	 	<!--[if lt IE 8]>
+	        <script>
+	         document.createElement('ng-include');
+	       	 document.createElement('ng-repeat');
+	         document.createElement('ng-disabled');
+	         document.createElement('ng-scope');
+	         document.createElement('ng-click');
+	         document.createElement('ng-class');
+	         document.createElement('ng-controller');
+	         document.createElement('ng-model');
+	         document.createElement('ng-binding');
+	         document.createElement('ng-show');
+	         document.createElement('ng-view');
+			 document.createElement('editable-text');
+			 document.createElement('ng:include');
+	         document.createElement('ng:pluralize');
+	         document.createElement('ng:view');
+	         document.createElement('ng:app');
+	         document.createElement('ng:controller');
+	        </script>
+      	<![endif]-->
+		<!--[if IE 7 ]>
+			<html class="ie7">
+			<link href="./css/glyphicons-ie7.css" rel="stylesheet">
+		<![endif]-->
+		
+		<!-- btoa() and atob() for IE < 9 -->
+		<script type="text/javascript">
+			if (!window.btoa) window.btoa = base64.encode; 
+	        if (!window.atob) window.atob = base64.decode;
+		</script>
+		
+	</head>
+	<body id="ng-app" ng-app="pollingApp" class="ng-app:pollingApp">
+	    
+		<div class="container" id="headerBar">
+		    <div class="row">
+		    	<div class="col-md-2 col-md-offset-1">
+		    		<a class="home-brand" href="#">
+						
+					</a>
+		    	</div>
+		    	<div class="col-md-2 col-md-offset-4 merchant-brand">
+
+		    	</div>
+		    	<div class="col-md-3"></div>
+		    </div>
+		</div>
+		
+	    <div class="spacer"></div>
+	    
+	    <div ng-view class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-1 main">
+	    
+		</div>
+	</body>
+</html>

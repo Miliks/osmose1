@@ -1,0 +1,47 @@
+.qrCodeImageStyle { border: 2px solid #FFA500; height: auto; width: 200px; margin-left: 40px; }
+.logoMerchantImageBase64 { height: 107px; width: auto; }
+#cardImg { height:60px; width:auto; padding: 5px; }
+.addressBlock { border: 1px solid #ccc; }
+.addressTitleBar { background: #ddd; }
+#orderSummary { background: #FFA500; color: white; padding: 10px 0 10px 10px; }
+#headerBar img { width: 250px; }
+.spacer { padding-top: 20px; }
+#qrcodeBlock { border-left: 2px solid #FFA500; }
+#deliveryAddress, #billingAddress, .addressTitleBar { padding: 5px; }
+div[ng-app] { margin: 10px; }
+form[name="editableForm"] > div {
+  height: auto;
+  padding: 5px 0;
+}
+
+form[name="editableForm"] .title {
+  display: inline-block;
+  font-weight: bold;
+  padding-top: 5px;
+  vertical-align: top;
+  min-width: 90px;
+}
+
+form[name="editableForm"] .editable {
+  display: inline-block;
+  padding-top: 5px;
+  vertical-align: top;
+}
+
+form[name="editableForm"] select {
+  width: 120px;
+}
+
+form[name="editableForm"] .titleAddress {
+  display: inline-block;
+  font-weight: bold;
+  padding-top: 2px;
+  vertical-align: top;
+  min-width: 90px;
+}
+
+form[name="editableForm"] .editableAddress {
+  display: inline-block;
+  padding-top: 5px;
+  vertical-align: top;
+}

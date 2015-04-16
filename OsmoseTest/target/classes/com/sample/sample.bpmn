@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:g="http://www.jboss.org/drools/flow/gpd" xmlns:tns="http://www.jboss.org/drools" xmlns="http://www.jboss.org/drools" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd" id="Definition" expressionLanguage="http://www.mvel.org/2.0" targetNamespace="http://www.jboss.org/drools" typeLanguage="http://www.java.com/javaTypes">
+  <bpmn2:itemDefinition id="_Integer" isCollection="false" structureRef="Integer"/>
+  <bpmn2:itemDefinition id="_String" isCollection="false" structureRef="String"/>
+  <bpmn2:process id="com.sample.bpmn.hello" tns:version="1" tns:packageName="defaultPackage" tns:adHoc="false" name="Hello World" isExecutable="true" processType="Private">
+    <bpmn2:property id="Temperature" itemSubjectRef="_Integer" name="Temperature"/>
+    <bpmn2:property id="RESTStatus" itemSubjectRef="_String" name="RESTStatus"/>
+    <bpmn2:property id="RESTResult" itemSubjectRef="_String" name="RESTResult"/>
+    <bpmn2:startEvent id="_1" name="Start process">
+      <bpmn2:outgoing>_1-_4</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="_1-_4" tns:priority="1" name="" sourceRef="_1" targetRef="ScriptTask_1"/>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_1" name="" gatewayDirection="Diverging">
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_9</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_10</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:scriptTask id="ScriptTask_1" name="Print Temperature" scriptFormat="http://www.java.com/java">
+      <bpmn2:incoming>_1-_4</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+      <bpmn2:script>System.out.println(&quot;Temp inside script: &quot;+Temperature);</bpmn2:script>
+    </bpmn2:scriptTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" tns:priority="1" name="" sourceRef="ScriptTask_1" targetRef="ExclusiveGateway_1"/>
+    <bpmn2:scriptTask id="ScriptTask_2" name="Temp low threshold" scriptFormat="http://www.java.com/java">
+      <bpmn2:incoming>SequenceFlow_9</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
+      <bpmn2:script>System.out.println(&quot;The temperature is below and equal &quot; + Temperature);</bpmn2:script>
+    </bpmn2:scriptTask>
+    <bpmn2:scriptTask id="ScriptTask_3" name="Temp over threshold" scriptFormat="http://www.java.com/java">
+      <bpmn2:incoming>SequenceFlow_10</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_7</bpmn2:outgoing>
+      <bpmn2:script>System.out.println(&quot;Temperature is over and equal &quot; + Temperature);</bpmn2:script>
+    </bpmn2:scriptTask>
+    <bpmn2:task id="ServiceTask_1" tns:taskName="Rest" name="Service Task 1">
+      <bpmn2:extensionElements>
+        <tns:onEntry-script scriptFormat="http://www.java.com/java"/>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_42">
+        <bpmn2:dataInput id="DataInput_1" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_2" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataOutput id="DataOutput_1" itemSubjectRef="_String" name="Status"/>
+        <bpmn2:dataOutput id="DataOutput_2" itemSubjectRef="_String" name="Result"/>
+        <bpmn2:inputSet id="_InputSet_2" name="Input Set 2">
+          <bpmn2:dataInputRefs>DataInput_1</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_2</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_11" name="Output Set 11">
+          <bpmn2:dataOutputRefs>DataOutput_1</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_2</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_3">
+        <bpmn2:targetRef>DataInput_1</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_3">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_11" language="http://www.mvel.org/2.0">http://localhost:8080/JAXRS-RESTEasy-0.0.1-SNAPSHOT/rest/hello/danger?queryParameter=#{Temperature}</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_9">DataInput_1</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_5">
+        <bpmn2:targetRef>DataInput_2</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_4">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_14" language="http://www.mvel.org/2.0">GET</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_12">DataInput_2</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_2">
+        <bpmn2:sourceRef>DataOutput_1</bpmn2:sourceRef>
+        <bpmn2:targetRef>RESTStatus</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_4">
+        <bpmn2:sourceRef>DataOutput_2</bpmn2:sourceRef>
+        <bpmn2:targetRef>RESTResult</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_7" tns:priority="1" name="" sourceRef="ScriptTask_3" targetRef="ServiceTask_1"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_8" tns:priority="1" name="" sourceRef="ServiceTask_1" targetRef="ScriptTask_4"/>
+    <bpmn2:inclusiveGateway id="InclusiveGateway_1" name="" gatewayDirection="Converging">
+      <bpmn2:incoming>SequenceFlow_5</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_6</bpmn2:outgoing>
+    </bpmn2:inclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_6" tns:priority="1" name="" sourceRef="InclusiveGateway_1" targetRef="_3"/>
+    <bpmn2:endEvent id="_3" name="End">
+      <bpmn2:incoming>SequenceFlow_6</bpmn2:incoming>
+      <bpmn2:terminateEventDefinition id="TerminateEventDefinition_1"/>
+    </bpmn2:endEvent>
+    <bpmn2:scriptTask id="ScriptTask_4" name="Script Task 4" scriptFormat="http://www.java.com/java">
+      <bpmn2:incoming>SequenceFlow_8</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_5</bpmn2:outgoing>
+      <bpmn2:script>System.out.println(&quot;REST: &quot;+RESTResult);</bpmn2:script>
+    </bpmn2:scriptTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_5" tns:priority="1" name="" sourceRef="ScriptTask_4" targetRef="InclusiveGateway_1"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_9" tns:priority="1" name="" sourceRef="ExclusiveGateway_1" targetRef="ScriptTask_2">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_3" language="http://www.mvel.org/2.0">return Temperature &lt; 25;</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_10" tns:priority="1" name="" sourceRef="ExclusiveGateway_1" targetRef="ScriptTask_3">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_4" language="http://www.mvel.org/2.0">return Temperature >=25;</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:task id="Task_1" tns:taskName="Rest" name="RabbitMQ Task">
+      <bpmn2:extensionElements>
+        <tns:onEntry-script scriptFormat="http://www.java.com/java"/>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_2</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_3</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_1">
+        <bpmn2:dataInput id="DataInput_3" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_4" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataOutput id="DataOutput_3" itemSubjectRef="_String" name="Status"/>
+        <bpmn2:dataOutput id="DataOutput_4" itemSubjectRef="_String" name="Result"/>
+        <bpmn2:inputSet id="InputSet_1" name="Input Set 2">
+          <bpmn2:dataInputRefs>DataInput_3</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_4</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_1" name="Output Set 11">
+          <bpmn2:dataOutputRefs>DataOutput_3</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_4</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_1">
+        <bpmn2:targetRef>DataInput_3</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_1">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_1" language="http://www.mvel.org/2.0">http://localhost:8080/JAXRS-RESTEasy-0.0.1-SNAPSHOT/rest/hello/rabbit?queryParameter=#{Temperature}</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_2">DataInput_1</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_2">
+        <bpmn2:targetRef>DataInput_4</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_2">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_5" language="http://www.mvel.org/2.0">GET</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_6">DataInput_2</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_1">
+        <bpmn2:sourceRef>DataOutput_3</bpmn2:sourceRef>
+        <bpmn2:targetRef>RESTStatus</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_3">
+        <bpmn2:sourceRef>DataOutput_4</bpmn2:sourceRef>
+        <bpmn2:targetRef>RESTResult</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_2" tns:priority="1" sourceRef="ScriptTask_2" targetRef="Task_1"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_3" tns:priority="1" sourceRef="Task_1" targetRef="InclusiveGateway_1"/>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_Process_1" bpmnElement="com.sample.bpmn.hello">
+      <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="_1">
+        <dc:Bounds height="36.0" width="36.0" x="27.0" y="22.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_1" bpmnElement="_3">
+        <dc:Bounds height="36.0" width="36.0" x="1020.0" y="117.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_1" bpmnElement="ExclusiveGateway_1" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="280.0" y="109.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ScriptTask_1" bpmnElement="ScriptTask_1">
+        <dc:Bounds height="50.0" width="110.0" x="80.0" y="109.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ScriptTask_2" bpmnElement="ScriptTask_2">
+        <dc:Bounds height="50.0" width="110.0" x="395.0" y="65.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ScriptTask_3" bpmnElement="ScriptTask_3">
+        <dc:Bounds height="50.0" width="110.0" x="410.0" y="190.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_InclusiveGateway_1" bpmnElement="InclusiveGateway_1">
+        <dc:Bounds height="50.0" width="50.0" x="910.0" y="123.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ServiceTask_1" bpmnElement="ServiceTask_1">
+        <dc:Bounds height="50.0" width="110.0" x="567.0" y="200.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ScriptTask_4" bpmnElement="ScriptTask_4">
+        <dc:Bounds height="50.0" width="110.0" x="744.0" y="200.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_1" bpmnElement="Task_1">
+        <dc:Bounds height="50.0" width="110.0" x="640.0" y="65.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="_1-_4" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_ScriptTask_1">
+        <di:waypoint xsi:type="dc:Point" x="45.0" y="58.0"/>
+        <di:waypoint xsi:type="dc:Point" x="45.0" y="134.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="134.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_1" sourceElement="BPMNShape_ScriptTask_1" targetElement="BPMNShape_ExclusiveGateway_1">
+        <di:waypoint xsi:type="dc:Point" x="190.0" y="134.0"/>
+        <di:waypoint xsi:type="dc:Point" x="260.0" y="134.0"/>
+        <di:waypoint xsi:type="dc:Point" x="260.0" y="134.0"/>
+        <di:waypoint xsi:type="dc:Point" x="280.0" y="134.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_8" bpmnElement="SequenceFlow_6" sourceElement="BPMNShape_InclusiveGateway_1" targetElement="BPMNShape_EndEvent_1">
+        <di:waypoint xsi:type="dc:Point" x="961.0" y="148.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1003.0" y="148.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1003.0" y="135.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1020.0" y="135.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_7" sourceElement="BPMNShape_ScriptTask_3" targetElement="BPMNShape_ServiceTask_1">
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="215.0"/>
+        <di:waypoint xsi:type="dc:Point" x="551.0" y="215.0"/>
+        <di:waypoint xsi:type="dc:Point" x="551.0" y="225.0"/>
+        <di:waypoint xsi:type="dc:Point" x="567.0" y="225.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_9" bpmnElement="SequenceFlow_8" sourceElement="BPMNShape_ServiceTask_1" targetElement="BPMNShape_ScriptTask_4">
+        <di:waypoint xsi:type="dc:Point" x="677.0" y="225.0"/>
+        <di:waypoint xsi:type="dc:Point" x="724.0" y="225.0"/>
+        <di:waypoint xsi:type="dc:Point" x="724.0" y="225.0"/>
+        <di:waypoint xsi:type="dc:Point" x="744.0" y="225.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="SequenceFlow_5" sourceElement="BPMNShape_ScriptTask_4" targetElement="BPMNShape_InclusiveGateway_1">
+        <di:waypoint xsi:type="dc:Point" x="854.0" y="225.0"/>
+        <di:waypoint xsi:type="dc:Point" x="935.0" y="225.0"/>
+        <di:waypoint xsi:type="dc:Point" x="935.0" y="174.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_10" bpmnElement="SequenceFlow_9" sourceElement="BPMNShape_ExclusiveGateway_1" targetElement="BPMNShape_ScriptTask_2">
+        <di:waypoint xsi:type="dc:Point" x="305.0" y="109.0"/>
+        <di:waypoint xsi:type="dc:Point" x="305.0" y="90.0"/>
+        <di:waypoint xsi:type="dc:Point" x="395.0" y="90.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_11" bpmnElement="SequenceFlow_10" sourceElement="BPMNShape_ExclusiveGateway_1" targetElement="BPMNShape_ScriptTask_3">
+        <di:waypoint xsi:type="dc:Point" x="305.0" y="160.0"/>
+        <di:waypoint xsi:type="dc:Point" x="305.0" y="215.0"/>
+        <di:waypoint xsi:type="dc:Point" x="410.0" y="215.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_4" bpmnElement="SequenceFlow_2" sourceElement="BPMNShape_ScriptTask_2" targetElement="BPMNShape_Task_1">
+        <di:waypoint xsi:type="dc:Point" x="505.0" y="90.0"/>
+        <di:waypoint xsi:type="dc:Point" x="565.0" y="90.0"/>
+        <di:waypoint xsi:type="dc:Point" x="565.0" y="90.0"/>
+        <di:waypoint xsi:type="dc:Point" x="640.0" y="90.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_5" bpmnElement="SequenceFlow_3" sourceElement="BPMNShape_Task_1" targetElement="BPMNShape_InclusiveGateway_1">
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="90.0"/>
+        <di:waypoint xsi:type="dc:Point" x="935.0" y="90.0"/>
+        <di:waypoint xsi:type="dc:Point" x="935.0" y="123.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

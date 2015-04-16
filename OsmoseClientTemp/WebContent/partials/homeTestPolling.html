@@ -1,0 +1,36 @@
+<div class="container" ng-controller="ShowController">
+	<div class="row spacer">
+		<div class="col-md-1"></div>
+		<div class="col-md-7"></div>
+		<div class="col-md-3"></div>
+	</div>
+	<div class="spacer"></div>
+	<div class="row spacer">
+		<div class="col-md-5 col-md-offset-1" id="loginForm">
+			<span><strong>Inserisci il numero di chiamate da effettuare</strong></span>
+			<form class="form-horizontal spacer" role="form">
+				<div class="form-group">
+					<label for="maxCalls" class="col-sm-4 col-lg-4 control-label">Numero di chiamate: </label>
+					<div class="col-sm-7 col-lg-7">
+						<input type="text" class="form-control" id="maxCallsInput">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="temperature" class="col-sm-4 col-lg-4 control-label">Temperatura: </label>
+					<div class="col-sm-7 col-lg-7">
+						<input type="text" class="form-control" id="temperatureInput">
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="col-md-5" id="qrcodeBlock">
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+	
+	<div class="row spacer">
+		<div class="col-md-4 col-md-offset-4">
+			<span class="btn btn-info btn-sm" id="pollingTest" ng-show="showPollingButton" ng-click="pollingTest()">Start Polling</span>
+		</div>
+	</div>
+</div>
